@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function ProfilePanel({ open, onClose, state, setState, showToast, showSuccess }) {
+export default function ProfilePanel({ open, onClose, state, setState, showToast, showSuccess, onLogout }) {
     const [name, setName] = useState(state.userName)
 
     const saveProfile = () => {
@@ -56,7 +56,25 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                         <div style={{ position: 'absolute', top: 2, left: 2, width: 20, height: 20, borderRadius: '50%', background: 'white', transition: 'transform 0.2s', boxShadow: '0 2px 4px rgba(0,0,0,0.2)', transform: state.darkMode ? 'translateX(20px)' : 'translateX(0)' }} />
                     </div>
                 </div>
-                <button className="btn-save" onClick={saveProfile}>Guardar cambios</button>
+                <button className="btn-save" onClick={saveProfile} style={{ marginTop: '24px' }}>Guardar cambios</button>
+                <button
+                    onClick={onLogout}
+                    style={{
+                        marginTop: '16px',
+                        width: '100%',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        border: '1px solid #ff4d4f',
+                        color: '#ff4d4f',
+                        background: 'transparent',
+                        fontSize: '15px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s'
+                    }}
+                >
+                    Cerrar sesión
+                </button>
             </div>
         </div>
     )

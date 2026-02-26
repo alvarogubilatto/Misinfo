@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { loadState, saveStateToStorage, formatMXN } from './data'
 
 // Screens
+import LoginScreen from './screens/LoginScreen'
 import HomeScreen from './screens/HomeScreen'
 import SubsScreen from './screens/SubsScreen'
 import PropsScreen from './screens/PropsScreen'
@@ -41,6 +42,22 @@ export default function App() {
 
     // Pay pending
     const [pendingPay, setPendingPay] = useState({ name: '', amount: '', icon: '💳' })
+
+    // Auth state
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return localStorage.getItem('auth_token') === 'true'
+    })
+
+    const handleLogin = () => {
+        localStorage.setItem('auth_token', 'true')
+        setIsAuthenticated(true)
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('auth_token')
+        setIsAuthenticated(false)
+        setOpenPanel(null)
+    }
 
     // Persist state
     useEffect(() => { saveStateToStorage(state) }, [state])
@@ -92,6 +109,14 @@ export default function App() {
 
     const commonProps = { state, setState, showToast, showSuccess, formatMXN }
 
+    if (!isAuthenticated) {
+        return (
+            <div className="app-container" id="phoneFrame">
+                <LoginScreen onLogin={handleLogin} />
+            </div>
+        )
+    }
+
     return (
         <div className="app-container" id="phoneFrame">
             <Toast msg={toast.msg} show={toast.show} />
@@ -100,7 +125,7 @@ export default function App() {
             {/* Panels */}
             <NotifPanel open={openPanel === 'notif'} onClose={() => setOpenPanel(null)} />
             <AccountsPanel open={openPanel === 'accounts'} onClose={() => setOpenPanel(null)} state={state} formatMXN={formatMXN} showToast={showToast} />
-            <ProfilePanel open={openPanel === 'profile'} onClose={() => setOpenPanel(null)} state={state} setState={setState} showToast={showToast} showSuccess={showSuccess} />
+            <ProfilePanel open={openPanel === 'profile'} onClose={() => setOpenPanel(null)} state={state} setState={setState} showToast={showToast} showSuccess={showSuccess} onLogout={handleLogout} />
 
             {/* Modals */}
             <AddFundsModal open={openModal === 'addFunds'} onClose={() => setOpenModal(null)} {...commonProps} />
