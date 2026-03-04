@@ -40,7 +40,7 @@ export default function PropsScreen({ className, state, setState, showToast, sho
                                     </div>
                                     <div>
                                         <div className="prop-value-label">Valor Estimado</div>
-                                        <div className="prop-value">${(p.value / 1000000).toFixed(1)}M MXN</div>
+                                        <div className="prop-value">${(p.value / 1000000).toFixed(1)}M ARS</div>
                                     </div>
                                 </div>
                                 <div className="prop-actions" onClick={e => e.stopPropagation()}>
@@ -73,7 +73,7 @@ export default function PropsScreen({ className, state, setState, showToast, sho
                         <div>
                             <div className="fiscal-tip-title">Tip Fiscal</div>
                             <div className="fiscal-tip-text">
-                                El año pasado pagaste $5,400 de predial. Pagar anticipado puede ayudarte a deducirlo mejor este año.
+                                El año pasado pagaste $5,400 de ABL. Pagarlo anticipado puede ayudarte a obtener un descuento del 10%.
                             </div>
                             <div className="fiscal-tip-actions">
                                 <button className="btn-tip-yes" onClick={scheduleReminder}>Sí, agendar recordatorio</button>

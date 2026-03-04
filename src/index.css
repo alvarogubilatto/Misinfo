@@ -21,11 +21,13 @@
   --border-med: #d8dce8;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.07);
   --shadow: 0 8px 32px rgba(80, 60, 140, 0.1);
-  --radius: 24px;
-  --radius-md: 16px;
-  --radius-sm: 12px;
+  --radius: 28px;
+  --radius-md: 20px;
+  --radius-sm: 16px;
   --nav-h: 76px;
   --phone-w: 390px;
+  --shadow-card: 0 12px 40px rgba(80, 60, 140, 0.13);
+  --shadow-hover: 0 20px 50px rgba(80, 60, 140, 0.2);
 }
 
 [data-theme="dark"] {
@@ -53,7 +55,7 @@
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', 'Arial', sans-serif;
   background: var(--bg);
   min-height: 100vh;
   margin: 0;
@@ -268,7 +270,7 @@ body {
   color: var(--text-light);
   border: none;
   background: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   text-decoration: none;
 }
 
@@ -354,6 +356,7 @@ body {
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.4px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .see-all {
@@ -377,9 +380,10 @@ body {
 
 .screen-title {
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.6px;
+  letter-spacing: -0.4px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .screen-subtitle {
@@ -470,6 +474,7 @@ body {
   font-weight: 800;
   color: var(--text);
   margin-top: 2px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .top-actions {
@@ -490,7 +495,13 @@ body {
   border: 1px solid var(--border);
   position: relative;
   flex-shrink: 0;
-  transition: transform 0.15s;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 53, 222, 0.18);
+  border-color: var(--purple-light);
 }
 
 .icon-btn:active {
@@ -529,12 +540,17 @@ body {
 
 /* Balance card */
 .balance-card {
-  background: linear-gradient(145deg, #1a1f3a, #0f1222, #080d1f);
+  background: linear-gradient(145deg, #1a1f3a 0%, #0f1222 50%, #0a0620 100%);
   border-radius: var(--radius);
   padding: 22px 20px 18px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(15, 18, 34, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 24px 50px rgba(8, 13, 31, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: box-shadow 0.3s;
+}
+
+.balance-card:hover {
+  box-shadow: 0 28px 60px rgba(8, 13, 31, 0.6), 0 0 0 1px rgba(155, 92, 240, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .balance-card::before {
@@ -672,7 +688,7 @@ body {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -697,7 +713,7 @@ body {
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -779,6 +795,7 @@ body {
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.2px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .venc-badge {
@@ -851,7 +868,7 @@ body {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   margin-top: 16px;
   transition: all 0.2s;
   position: relative;
@@ -953,6 +970,7 @@ body {
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.3px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .chart-sub {
@@ -1171,7 +1189,7 @@ body {
   outline: none;
   background: none;
   font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   color: var(--text);
 }
 
@@ -1352,6 +1370,7 @@ body {
   font-size: 22px;
   font-weight: 900;
   color: var(--text);
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .panel-close {
@@ -2405,7 +2424,7 @@ body {
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 15px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   color: var(--text);
   outline: none;
   transition: border-color 0.2s;
@@ -2751,7 +2770,7 @@ body {
   font-size: 15px;
   font-weight: 800;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2833,6 +2852,7 @@ body {
   margin-top: 16px;
   text-align: center;
   padding: 0 32px;
+  font-family: 'MuseoModerno', 'Malgun Gothic', sans-serif;
 }
 
 .success-sub {
@@ -2846,4 +2866,32 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+/* ===================== EXTRA POLISH ===================== */
+@keyframes gear-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.panel-close {
+  transition: background 0.18s, color 0.18s, transform 0.2s;
+}
+
+.panel-close:hover {
+  transform: scale(1.1);
+}
+
+.card-hover-lift {
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover, 0 20px 50px rgba(80, 60, 140, 0.2));
 }

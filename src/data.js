@@ -19,17 +19,17 @@ export const defaultState = {
         { id: 1, icon: '🍎', bg: '#1e2939', name: 'Apple Store', meta: 'Compras · Hoy, 2:45 PM', amount: -120, cat: 'compras' },
         { id: 2, icon: '☕', bg: '#008236', name: 'Starbucks', meta: 'Alimentos · Hoy, 9:30 AM', amount: -5.40, cat: 'gasto' },
         { id: 3, icon: '⚡', bg: '#fe9a00', name: 'Factura de Luz', meta: 'Servicios · Ayer', amount: -145, cat: 'servicios' },
-        { id: 4, icon: '📈', bg: '#009966', name: 'Depósito Nómina', meta: 'Ingreso · Ayer', amount: 18500, cat: 'ingreso' },
+        { id: 4, icon: '📈', bg: '#009966', name: 'Depósito Sueldo', meta: 'Ingreso · Ayer', amount: 18500, cat: 'ingreso' },
         { id: 5, icon: '📱', bg: '#9810fa', name: 'Plan Celular', meta: 'Servicios · Hace 2 días', amount: -40, cat: 'servicios' },
     ],
     accounts: [
-        { id: 1, icon: '🏦', color: '#e3f2fd', name: 'BBVA Débito', num: '**** 4321', balance: 28400 },
-        { id: 2, icon: '💳', color: '#f3e5f5', name: 'HSBC Ahorro', num: '**** 8890', balance: 10200 },
+        { id: 1, icon: '🏦', color: '#e3f2fd', name: 'Banco Galicia', num: '**** 4321', balance: 28400 },
+        { id: 2, icon: '💳', color: '#f3e5f5', name: 'Banco Nación', num: '**** 8890', balance: 10200 },
         { id: 3, icon: '🏧', color: '#e8f5e9', name: 'Efectivo', num: 'Billetera', balance: 4250 },
     ],
     properties: [
-        { id: 1, icon: '🏡', gradient: 'linear-gradient(135deg,#ddd6fe,#a78bfa)', name: 'Casa Principal', address: 'Av. Reforma 123, CDMX', value: 4200000, type: 'Propietario', hasWarning: false },
-        { id: 2, icon: '🏖️', gradient: 'linear-gradient(135deg,#fde68a,#fbbf24)', name: 'Depto Playa', address: 'Cancún, Zona Hotelera', value: 2800000, type: 'Propietario', hasWarning: true },
+        { id: 1, icon: '🏡', gradient: 'linear-gradient(135deg,#ddd6fe,#a78bfa)', name: 'Casa Principal', address: 'Av. Corrientes 1234, CABA', value: 4200000, type: 'Propietario', hasWarning: false },
+        { id: 2, icon: '🏖️', gradient: 'linear-gradient(135deg,#fde68a,#fbbf24)', name: 'Depto Playa', address: 'Mar del Plata, Buenos Aires', value: 2800000, type: 'Propietario', hasWarning: true },
     ],
     nextId: 100,
 };
@@ -46,9 +46,12 @@ export function saveStateToStorage(state) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { }
 }
 
-export function formatMXN(n) {
-    return Math.floor(n).toLocaleString('es-MX');
+export function formatARS(n) {
+    return Math.floor(n).toLocaleString('es-AR');
 }
+
+// Backward-compatible alias
+export const formatMXN = formatARS;
 
 export const chartData = {
     week: {

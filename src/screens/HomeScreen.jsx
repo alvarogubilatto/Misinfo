@@ -166,7 +166,7 @@ export default function HomeScreen({
                                 <div className="venc-left">
                                     <div className="venc-icon-wrap">🏛️</div>
                                     <div>
-                                        <div className="venc-name">Impuesto Predial</div>
+                                        <div className="venc-name">ABL / Inmobiliario</div>
                                         <div className="venc-badge">⏰ Vence en 3 días</div>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@ export default function HomeScreen({
                                 <div className="progress-fill" style={{ width: `${progressW}%`, background: 'linear-gradient(90deg,#ff6000,#ff9940)' }} />
                             </div>
                             <div className="progress-labels"><span>85% del plazo</span><span>12 Mar</span></div>
-                            <button className="btn-pay" onClick={() => handlePay('Impuesto Predial', '$2,400', '🏛️')}>Pagar Ahora</button>
+                            <button className="btn-pay" onClick={() => handlePay('ABL / Inmobiliario', '$2,400', '🏗️')}>Pagar Ahora</button>
                         </div>
                     </div>
                     <div className="mini-venc-row">
