@@ -12,6 +12,7 @@ import ReportsScreen from './screens/ReportsScreen'
 import NotifPanel from './components/NotifPanel'
 import AccountsPanel from './components/AccountsPanel'
 import ProfilePanel from './components/ProfilePanel'
+import ActivityPanel from './components/ActivityPanel'
 import AddFundsModal from './components/AddFundsModal'
 import PayModal from './components/PayModal'
 import AddSubModal from './components/AddSubModal'
@@ -126,6 +127,7 @@ export default function App() {
             <NotifPanel open={openPanel === 'notif'} onClose={() => setOpenPanel(null)} />
             <AccountsPanel open={openPanel === 'accounts'} onClose={() => setOpenPanel(null)} state={state} formatMXN={formatMXN} showToast={showToast} />
             <ProfilePanel open={openPanel === 'profile'} onClose={() => setOpenPanel(null)} state={state} setState={setState} showToast={showToast} showSuccess={showSuccess} onLogout={handleLogout} />
+            <ActivityPanel open={openPanel === 'activity'} onClose={() => setOpenPanel(null)} state={state} formatMXN={formatMXN} />
 
             {/* Modals */}
             <AddFundsModal open={openModal === 'addFunds'} onClose={() => setOpenModal(null)} {...commonProps} />

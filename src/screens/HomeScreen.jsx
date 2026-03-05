@@ -91,7 +91,11 @@ export default function HomeScreen({
                 <div className="top-bar">
                     <div className="user-info">
                         <div className="avatar" onClick={() => openPanel('profile')}>
-                            {(state.userName || 'A')[0].toUpperCase()}
+                            {state.avatarUrl ? (
+                                <img src={state.avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                                (state.userName || 'A')[0].toUpperCase()
+                            )}
                         </div>
                         <div>
                             <div className="welcome-text">{getGreeting()}</div>
@@ -239,7 +243,7 @@ export default function HomeScreen({
                 <div className="home-activity-section">
                     <div className="section-header">
                         <span className="section-title">Actividad Reciente</span>
-                        <button className="see-all" onClick={() => showToast('📊 Historial completo próximamente')}>Ver todo →</button>
+                        <button className="see-all" onClick={() => openPanel('activity')}>Ver todo →</button>
                     </div>
                     <div className="activity-search">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
