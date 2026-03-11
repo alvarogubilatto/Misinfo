@@ -20,6 +20,7 @@ import AddPropModal from './components/AddPropModal'
 import ServicesModal from './components/ServicesModal'
 import Toast from './components/Toast'
 import SuccessOverlay from './components/SuccessOverlay'
+import Onboarding from './components/Onboarding'
 
 const TAB_ORDER = ['home', 'subs', 'props', 'reports']
 
@@ -30,12 +31,12 @@ export default function App() {
     const [animDir, setAnimDir] = useState('')
 
     // Panel / Modal open states
-    const [openPanel, setOpenPanel] = useState(null) // 'notif' | 'accounts' | 'profile'
-    const [openModal, setOpenModal] = useState(null)  // 'addFunds' | 'pay' | 'addSub' | 'addProp' | 'services'
+    const [openPanel, setOpenPanel] = useState(null)
+    const [openModal, setOpenModal] = useState(null)
     const [servicesFor, setServicesFor] = useState('')
 
-    // Toast
-    const [toast, setToast] = useState({ msg: '', show: false })
+    // Toast with type support
+    const [toast, setToast] = useState({ msg: '', show: false, type: '' })
     const toastTimerRef = useRef(null)
 
     // Success
@@ -49,6 +50,11 @@ export default function App() {
         return localStorage.getItem('auth_token') === 'true'
     })
 
+    // Onboarding state
+    const [showOnboarding, setShowOnboarding] = useState(() => {
+        return !localStorage.getItem('onboarding_done')
+    })
+
     const handleLogin = () => {
         localStorage.setItem('auth_token', 'true')
         setIsAuthenticated(true)
@@ -60,6 +66,11 @@ export default function App() {
         setOpenPanel(null)
     }
 
+    const handleOnboardingComplete = () => {
+        localStorage.setItem('onboarding_done', 'true')
+        setShowOnboarding(false)
+    }
+
     // Persist state
     useEffect(() => { saveStateToStorage(state) }, [state])
 
@@ -68,10 +79,10 @@ export default function App() {
         document.documentElement.setAttribute('data-theme', state.darkMode ? 'dark' : 'light')
     }, [state.darkMode])
 
-    const showToast = useCallback((msg) => {
-        setToast({ msg, show: true })
+    const showToast = useCallback((msg, type = '') => {
+        setToast({ msg, show: true, type })
         clearTimeout(toastTimerRef.current)
-        toastTimerRef.current = setTimeout(() => setToast(t => ({ ...t, show: false })), 2400)
+        toastTimerRef.current = setTimeout(() => setToast(t => ({ ...t, show: false })), 2800)
     }, [])
 
     const showSuccess = useCallback((text, sub = '') => {
@@ -120,8 +131,11 @@ export default function App() {
 
     return (
         <div className="app-container" id="phoneFrame">
-            <Toast msg={toast.msg} show={toast.show} />
+            <Toast msg={toast.msg} show={toast.show} type={toast.type} />
             <SuccessOverlay show={success.show} text={success.text} sub={success.sub} />
+
+            {/* Onboarding overlay (P3) */}
+            <Onboarding show={showOnboarding && isAuthenticated} onComplete={handleOnboardingComplete} />
 
             {/* Panels */}
             <NotifPanel open={openPanel === 'notif'} onClose={() => setOpenPanel(null)} />

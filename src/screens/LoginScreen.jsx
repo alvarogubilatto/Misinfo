@@ -7,7 +7,7 @@ export default function LoginScreen({ onLogin }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (email === 'admin@misinfo.com' && password === 'misinfo123') {
+        if (email === ' ' && password === 'misinfo123') {
             onLogin()
         } else {
             setError('Credenciales incorrectas')

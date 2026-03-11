@@ -4,6 +4,7 @@ export default function SubsScreen({ className, state, setState, showToast, show
     const [filter, setFilter] = useState('all')
     const [showBanner, setShowBanner] = useState(true)
     const [showAlertUso, setShowAlertUso] = useState(true)
+    const [confirmDelete, setConfirmDelete] = useState(null)
 
     const filtered = state.subs.filter(s => {
         if (filter === 'active') return !s.paused
@@ -19,20 +20,21 @@ export default function SubsScreen({ className, state, setState, showToast, show
             subs: s.subs.map(sub => sub.id === id ? { ...sub, paused: !sub.paused } : sub)
         }))
         const sub = state.subs.find(s => s.id === id)
-        showToast(sub?.paused ? `▶ ${sub.name} reactivada` : `⏸ ${sub?.name} pausada`)
+        showToast(sub?.paused ? `${sub.name} reactivada` : `${sub?.name} pausada`, sub?.paused ? 'success' : 'warning')
     }
 
     const deleteSub = (id) => {
         const sub = state.subs.find(s => s.id === id)
         setState(s => ({ ...s, subs: s.subs.filter(sub => sub.id !== id) }))
-        showToast(`🗑 ${sub?.name} eliminada`)
+        showToast(`${sub?.name} eliminada`, 'success')
+        setConfirmDelete(null)
     }
 
     const pauseById = (id) => {
         const sub = state.subs.find(s => s.id === id)
         if (sub && !sub.paused) {
             setState(s => ({ ...s, subs: s.subs.map(sub => sub.id === id ? { ...sub, paused: true } : sub) }))
-            showToast(`⏸ ${sub.name} pausada`)
+            showToast(`${sub.name} pausada`, 'warning')
             setShowAlertUso(false)
         }
     }
@@ -112,7 +114,12 @@ export default function SubsScreen({ className, state, setState, showToast, show
                                     <button className="sub-action-btn" onClick={() => togglePause(s.id)}>
                                         {s.paused ? '▶ Reactivar' : '⏸ Pausar'}
                                     </button>
-                                    <button className="sub-action-btn danger" onClick={() => deleteSub(s.id)}>🗑 Eliminar</button>
+                                    <button className="sub-action-btn danger" onClick={() => setConfirmDelete(s)}>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 4, verticalAlign: 'middle' }}>
+                                            <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                        </svg>
+                                        Eliminar
+                                    </button>
                                 </div>
                             </div>
                             <div className="sub-amount">
@@ -127,6 +134,23 @@ export default function SubsScreen({ className, state, setState, showToast, show
 
                 <button className="btn-add-sub" onClick={openModal}>＋ Agregar suscripción</button>
                 <div style={{ height: 28 }} />
+
+                {/* Confirm delete modal */}
+                {confirmDelete && (
+                    <div className={`confirm-overlay${confirmDelete ? ' open' : ''}`} onClick={() => setConfirmDelete(null)}>
+                        <div className="confirm-card" onClick={e => e.stopPropagation()}>
+                            <div className="confirm-icon">🗑️</div>
+                            <div className="confirm-title">¿Eliminar {confirmDelete.name}?</div>
+                            <div className="confirm-body">
+                                Esta acción no se puede deshacer. Se eliminará la suscripción de ${confirmDelete.price.toLocaleString()}/mes de tu lista.
+                            </div>
+                            <div className="confirm-actions">
+                                <button className="confirm-btn cancel" onClick={() => setConfirmDelete(null)}>Cancelar</button>
+                                <button className="confirm-btn danger" onClick={() => deleteSub(confirmDelete.id)}>Sí, eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -1,8 +1,35 @@
 import { useState } from 'react'
 
+const SECTION_LABELS = {
+    profile: 'Mi Perfil',
+    settings: 'Opciones',
+    notifications: 'Notificaciones',
+    security: 'Seguridad',
+    export: 'Exportar datos',
+    terms: 'Términos y privacidad'
+}
+
+function Breadcrumbs({ path, onNavigate }) {
+    if (path.length <= 1) return null
+    return (
+        <div className="panel-breadcrumbs">
+            {path.map((p, i) => (
+                <span key={i}>
+                    {i > 0 && <span className="bc-sep"> › </span>}
+                    {i === path.length - 1
+                        ? <span className="bc-active">{SECTION_LABELS[p]}</span>
+                        : <span onClick={() => onNavigate(p)}>{SECTION_LABELS[p]}</span>
+                    }
+                </span>
+            ))}
+        </div>
+    )
+}
+
 export default function ProfilePanel({ open, onClose, state, setState, showToast, showSuccess, onLogout }) {
     const [name, setName] = useState(state.userName)
-    const [activeSection, setActiveSection] = useState('profile') // 'profile' | 'settings'
+    const [activeSection, setActiveSection] = useState('profile')
+    const [confirmLogout, setConfirmLogout] = useState(false)
 
     const saveProfile = () => {
         const trimmed = name.trim() || 'Alex'
@@ -15,20 +42,27 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
         setState(s => ({ ...s, darkMode: !s.darkMode }))
     }
 
+    const getBreadcrumbPath = () => {
+        if (activeSection === 'profile') return ['profile']
+        if (activeSection === 'settings') return ['profile', 'settings']
+        return ['profile', 'settings', activeSection]
+    }
+
+    const handleBreadcrumbNav = (section) => {
+        setActiveSection(section)
+    }
+
     return (
         <div className={`side-panel-overlay${open ? ' open' : ''}`} onClick={onClose}>
             <div className="side-panel" onClick={e => e.stopPropagation()}>
                 <div className="side-panel-header">
-                    <div className="side-panel-title">
-                        {activeSection === 'profile' ? 'Mi Perfil' :
-                            activeSection === 'settings' ? 'Opciones' :
-                                activeSection === 'notifications' ? 'Notificaciones' :
-                                    activeSection === 'security' ? 'Seguridad' :
-                                        activeSection === 'export' ? 'Exportar datos' :
-                                            activeSection === 'terms' ? 'Términos y privacidad' : 'Opciones'}
+                    <div>
+                        <Breadcrumbs path={getBreadcrumbPath()} onNavigate={handleBreadcrumbNav} />
+                        <div className="side-panel-title">
+                            {SECTION_LABELS[activeSection] || 'Opciones'}
+                        </div>
                     </div>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        {/* Settings gear toggle */}
                         <button
                             className="panel-close"
                             title="Opciones"
@@ -47,7 +81,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                 </div>
 
                 {activeSection === 'profile' && (
-                    <>
+                    <div className="panel-section-enter">
                         <div className="profile-avatar-section">
                             <div className="profile-avatar-big">
                                 {state.avatarUrl ? (
@@ -62,7 +96,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                                     if (e.target.files && e.target.files[0]) {
                                         const file = e.target.files[0];
                                         if (file.size > 2 * 1024 * 1024) {
-                                            showToast('❌ La foto debe ser menor a 2MB');
+                                            showToast('La foto debe ser menor a 2MB', 'error');
                                             return;
                                         }
                                         const reader = new FileReader();
@@ -106,7 +140,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                         </div>
                         <button className="btn-save" onClick={saveProfile} style={{ marginTop: '24px' }}>Guardar cambios</button>
                         <button
-                            onClick={onLogout}
+                            onClick={() => setConfirmLogout(true)}
                             style={{
                                 marginTop: '12px',
                                 width: '100%',
@@ -123,58 +157,53 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                         >
                             Cerrar sesión
                         </button>
-                    </>
+                    </div>
                 )}
 
                 {activeSection === 'settings' && (
-                    <>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                            {[
-                                { icon: '🔔', label: 'Notificaciones', sub: 'Alertas de vencimientos y pagos', action: () => setActiveSection('notifications') },
-                                { icon: '🔒', label: 'Seguridad', sub: 'PIN, biometría y contraseña', action: () => setActiveSection('security') },
-                                { icon: '💾', label: 'Exportar datos', sub: 'Descargá tus datos en CSV o PDF', action: () => setActiveSection('export') },
-                                { icon: '🗑️', label: 'Limpiar caché', sub: 'Eliminar datos temporales', action: () => showToast('🗑️ Caché limpiada') },
-                                { icon: '📋', label: 'Términos y privacidad', sub: 'Política de privacidad y términos', action: () => setActiveSection('terms') },
-                                { icon: 'ℹ️', label: 'Versión de la app', sub: 'MisInfo v1.0.0 — Argentina 🇦🇷', action: () => showToast('✅ Estás en la última versión') },
-                            ].map((item, i) => (
-                                <button
-                                    key={i}
-                                    onClick={item.action}
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 14,
-                                        background: 'var(--bg)',
-                                        border: '1px solid var(--border)',
-                                        borderRadius: 16,
-                                        padding: '14px 16px',
-                                        cursor: 'pointer',
-                                        width: '100%',
-                                        textAlign: 'left',
-                                        transition: 'all 0.15s',
-                                    }}
-                                    onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--purple)'}
-                                    onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-                                >
-                                    <div style={{ fontSize: 22, flexShrink: 0, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--card)', borderRadius: 10 }}>
-                                        {item.icon}
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{item.label}</div>
-                                        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{item.sub}</div>
-                                    </div>
-                                    <div style={{ color: 'var(--text-light)', fontSize: 18 }}>›</div>
-                                </button>
-                            ))}
-                        </div>
-                    </>
+                    <div className="panel-section-enter" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {[
+                            { icon: '🔔', label: 'Notificaciones', sub: 'Alertas de vencimientos y pagos', action: () => setActiveSection('notifications') },
+                            { icon: '🔒', label: 'Seguridad', sub: 'PIN, biometría y contraseña', action: () => setActiveSection('security') },
+                            { icon: '💾', label: 'Exportar datos', sub: 'Descargá tus datos en CSV o PDF', action: () => setActiveSection('export') },
+                            { icon: '🗑️', label: 'Limpiar caché', sub: 'Eliminar datos temporales', action: () => showToast('Caché limpiada correctamente', 'success') },
+                            { icon: '📋', label: 'Términos y privacidad', sub: 'Política de privacidad y términos', action: () => setActiveSection('terms') },
+                            { icon: 'ℹ️', label: 'Versión de la app', sub: 'MisInfo v1.0.0 — Argentina 🇦🇷', action: () => showToast('Estás en la última versión', 'success') },
+                        ].map((item, i) => (
+                            <button
+                                key={i}
+                                onClick={item.action}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 14,
+                                    background: 'var(--bg)',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: 16,
+                                    padding: '14px 16px',
+                                    cursor: 'pointer',
+                                    width: '100%',
+                                    textAlign: 'left',
+                                    transition: 'all 0.15s',
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--purple)'}
+                                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                            >
+                                <div style={{ fontSize: 22, flexShrink: 0, width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--card)', borderRadius: 10 }}>
+                                    {item.icon}
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{item.label}</div>
+                                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{item.sub}</div>
+                                </div>
+                                <div style={{ color: 'var(--text-light)', fontSize: 18 }}>›</div>
+                            </button>
+                        ))}
+                    </div>
                 )}
 
                 {activeSection === 'notifications' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        <button onClick={() => setActiveSection('settings')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 'bold', fontSize: '15px', cursor: 'pointer', marginBottom: '8px' }}>
-                            ‹ Volver a opciones
-                        </button>
+                    <div className="panel-section-enter" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <div className="form-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div>
                                 <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>Vencimientos próximos</div>
@@ -200,10 +229,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                 )}
 
                 {activeSection === 'security' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        <button onClick={() => setActiveSection('settings')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 'bold', fontSize: '15px', cursor: 'pointer', marginBottom: '8px' }}>
-                            ‹ Volver a opciones
-                        </button>
+                    <div className="panel-section-enter" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <div className="form-group">
                             <label className="form-label">Cambiar PIN</label>
                             <input className="form-input" type="password" placeholder="Ingresá nuevo PIN" />
@@ -223,10 +249,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                 )}
 
                 {activeSection === 'export' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        <button onClick={() => setActiveSection('settings')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 'bold', fontSize: '15px', cursor: 'pointer', marginBottom: '8px' }}>
-                            ‹ Volver a opciones
-                        </button>
+                    <div className="panel-section-enter" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>Seleccioná el formato para descargar el historial completo de tus actividades y configuraciones.</p>
                         <div style={{ display: 'flex', gap: 12 }}>
                             <button className="btn-save" onClick={() => {
@@ -240,10 +263,7 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                 )}
 
                 {activeSection === 'terms' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        <button onClick={() => setActiveSection('settings')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', textAlign: 'left', fontWeight: 'bold', fontSize: '15px', cursor: 'pointer', marginBottom: '8px' }}>
-                            ‹ Volver a opciones
-                        </button>
+                    <div className="panel-section-enter" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 16, padding: '16px', fontSize: 13, color: 'var(--text-muted)', maxHeight: '300px', overflowY: 'auto', lineHeight: 1.5 }}>
                             <h3 style={{ color: 'var(--text)', marginBottom: 8, fontSize: 15 }}>Términos y Condiciones</h3>
                             <p style={{ marginBottom: 12 }}>Al usar MisInfo, aceptas los términos de uso. MisInfo es una aplicación de gestión financiera personal que te permite organizar tus finanzas en Argentina.</p>
@@ -251,6 +271,21 @@ export default function ProfilePanel({ open, onClose, state, setState, showToast
                             <p style={{ marginBottom: 12 }}>Tus datos financieros y la información que nos proporciones se almacena localmente y, cuando sea necesario, estará cifrada.</p>
                             <h3 style={{ color: 'var(--text)', marginBottom: 8, fontSize: 15 }}>Sincronización Bancaria</h3>
                             <p>La sincronización bancaria requiere el uso de proveedores regulados. MisInfo nunca almacena tus contraseñas directamente.</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Logout confirmation */}
+                {confirmLogout && (
+                    <div className={`confirm-overlay${confirmLogout ? ' open' : ''}`} onClick={() => setConfirmLogout(false)} style={{ position: 'fixed' }}>
+                        <div className="confirm-card" onClick={e => e.stopPropagation()}>
+                            <div className="confirm-icon">🔒</div>
+                            <div className="confirm-title">¿Cerrar sesión?</div>
+                            <div className="confirm-body">Tendrás que ingresar tus credenciales nuevamente para acceder a tu cuenta.</div>
+                            <div className="confirm-actions">
+                                <button className="confirm-btn cancel" onClick={() => setConfirmLogout(false)}>Cancelar</button>
+                                <button className="confirm-btn danger" onClick={() => { setConfirmLogout(false); onLogout() }}>Cerrar sesión</button>
+                            </div>
                         </div>
                     </div>
                 )}
