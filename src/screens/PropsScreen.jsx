@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { colors } from '../design/colors'
 
 const PROP_COLORS = [
-    'linear-gradient(135deg,#ddd6fe,#a78bfa)',
-    'linear-gradient(135deg,#fde68a,#fbbf24)',
-    'linear-gradient(135deg,#a7f3d0,#34d399)',
-    'linear-gradient(135deg,#fca5a5,#f87171)',
-    'linear-gradient(135deg,#93c5fd,#3b82f6)',
+    colors.gradSecondary,
+    colors.gradPrimary,
+    colors.gradBg,
+    colors.gradDark,
 ]
 
 export default function PropsScreen({ className, state, setState, showToast, showSuccess, formatMXN, openAddProp, openServicesModal }) {

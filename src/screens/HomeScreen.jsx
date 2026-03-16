@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { chartData } from '../data'
+import { colors } from '../design/colors'
 
 function getGreeting() {
     const h = new Date().getHours()
@@ -95,21 +96,21 @@ function WeeklyDigest({ activities, formatMXN }) {
             {open && (
                 <div className="weekly-digest-body">
                     <div className="digest-item">
-                        <div className="digest-item-icon" style={{ background: '#f0fdf4' }}>📉</div>
+                        <div className="digest-item-icon" style={{ background: colors.catGreen }}>📉</div>
                         <div className="digest-item-text">
                             Gastaste <strong>${formatMXN(gastos)}</strong> esta semana en {gastosCount} transacciones
                         </div>
                     </div>
                     {maxGasto && (
                         <div className="digest-item">
-                            <div className="digest-item-icon" style={{ background: '#fef3c7' }}>🏷️</div>
+                            <div className="digest-item-icon" style={{ background: colors.catYellow }}>🏷️</div>
                             <div className="digest-item-text">
                                 Tu mayor gasto fue <strong>{maxGasto.name}</strong> (${Math.abs(maxGasto.amount).toLocaleString('es-AR')})
                             </div>
                         </div>
                     )}
                     <div className="digest-item">
-                        <div className="digest-item-icon" style={{ background: '#eff6ff' }}>💰</div>
+                        <div className="digest-item-icon" style={{ background: colors.catBlue }}>💰</div>
                         <div className="digest-item-text">
                             Recibiste <strong>{ingresosCount} ingreso{ingresosCount !== 1 ? 's' : ''}</strong> esta semana
                         </div>
@@ -333,7 +334,7 @@ export default function HomeScreen({
                                 </div>
                             </div>
                             <div className="progress-track">
-                                <div className="progress-fill" style={{ width: `${progressW}%`, background: 'linear-gradient(90deg,#ff6000,#ff9940)' }} />
+                                <div className="progress-fill" style={{ width: `${progressW}%`, background: colors.primary }} />
                             </div>
                             <div className="progress-labels"><span>85% del plazo</span><span>12 Mar</span></div>
                             <button className="btn-pay" onClick={() => handlePay('ABL / Inmobiliario', '$2,400', '🏗️')}>Pagar Ahora</button>
@@ -343,7 +344,7 @@ export default function HomeScreen({
                     {/* Mini vencimiento cards with checkboxes */}
                     <div className="mini-venc-row">
                         <div className="mini-venc-card" onClick={() => toggleVenc('renta')}>
-                            <div className="mini-dot-accent" style={{ background: '#eff6ff' }} />
+                            <div className="mini-dot-accent" style={{ background: colors.catBlue }} />
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                                 <div
                                     className={`venc-checkbox${selectedVenc.includes('renta') ? ' checked' : ''}`}
@@ -362,7 +363,7 @@ export default function HomeScreen({
                             <div className="mini-status mini-status-pending">Vence el día 5</div>
                         </div>
                         <div className="mini-venc-card" onClick={() => showToast('✅ Spotify ya fue pagado', 'success')}>
-                            <div className="mini-dot-accent" style={{ background: '#f0fdf4' }} />
+                            <div className="mini-dot-accent" style={{ background: colors.catGreen }} />
                             <div className="mini-venc-icon">🎵</div>
                             <div className="mini-name">Spotify</div>
                             <div className="mini-amount">$179</div>
@@ -384,8 +385,8 @@ export default function HomeScreen({
                 {/* Chart */}
                 <div className="chart-card stagger-5">
                     <div className="chart-legend chart-title-legend">
-                        <div className="legend-item"><span className="legend-dot" style={{ background: '#6c35de' }} /><span className="legend-text">Ingreso</span></div>
-                        <div className="legend-item"><span className="legend-dot" style={{ background: '#f05096' }} /><span className="legend-text">Gastos</span></div>
+                        <div className="legend-item"><span className="legend-dot" style={{ background: colors.chartIncome }} /><span className="legend-text">Ingreso</span></div>
+                        <div className="legend-item"><span className="legend-dot" style={{ background: colors.chartExpense }} /><span className="legend-text">Gastos</span></div>
                     </div>
                     <div className="chart-sub">{chartData[chartPeriod].subtitle}</div>
                     <div className="chart-tabs">
@@ -404,7 +405,7 @@ export default function HomeScreen({
 
                 {/* Sync */}
                 <div className="sync-card stagger-6" onClick={() => showToast('Sincronizando tus cuentas...', 'info')}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
                         <line x1="8" y1="21" x2="16" y2="21" />
                         <line x1="12" y1="17" x2="12" y2="21" />

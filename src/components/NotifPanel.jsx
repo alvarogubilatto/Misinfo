@@ -3,7 +3,7 @@ export default function NotifPanel({ open, onClose }) {
         { border: 'var(--orange)', title: '⏰ Impuesto Predial vence en 3 días', body: 'Tu pago de $2,400 vence el 12 de marzo.', time: 'Hace 2 horas' },
         { border: 'var(--red)', title: '📈 Adobe CC sube de precio', body: 'Adobe CC aumentará a $749 el próximo mes.', time: 'Hace 5 horas' },
         { border: 'var(--green)', title: '✅ Spotify pagado correctamente', body: 'Se realizó el cargo de $179 con tu tarjeta terminación 4321.', time: 'Ayer, 8:00 PM' },
-        { border: 'var(--purple)', title: '🏦 Sincronización completada', body: 'Tus 3 cuentas bancarias fueron actualizadas.', time: 'Hace 1 día' },
+        { border: 'var(--primary)', title: '🏦 Sincronización completada', body: 'Tus 3 cuentas bancarias fueron actualizadas.', time: 'Hace 1 día' },
     ]
 
     return (

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { colors } from '../design/colors'
 
 export default function LoginScreen({ onLogin }) {
     const [email, setEmail] = useState('')
@@ -7,7 +8,7 @@ export default function LoginScreen({ onLogin }) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (email === ' ' && password === 'misinfo123') {
+        if (email === 'admin@misinfo.com' && password === 'misinfo123') {
             onLogin()
         } else {
             setError('Credenciales incorrectas')
@@ -39,7 +40,7 @@ export default function LoginScreen({ onLogin }) {
                     <div style={{
                         width: '64px',
                         height: '64px',
-                        background: 'linear-gradient(135deg, #6c35de, #b580ff)',
+                        background: colors.gradPrimary,
                         borderRadius: '16px',
                         display: 'flex',
                         alignItems: 'center',
@@ -48,7 +49,7 @@ export default function LoginScreen({ onLogin }) {
                         color: 'white',
                         fontSize: '32px',
                         fontWeight: 'bold',
-                        boxShadow: '0 8px 16px rgba(108, 53, 222, 0.3)'
+                        boxShadow: colors.shadowSm
                     }}>
                         M
                     </div>
@@ -84,8 +85,8 @@ export default function LoginScreen({ onLogin }) {
 
                     {error && (
                         <div style={{
-                            color: '#ff4d4f',
-                            backgroundColor: 'rgba(255, 77, 79, 0.1)',
+                            color: colors.error,
+                            backgroundColor: colors.catRed,
                             padding: '12px 16px',
                             borderRadius: '8px',
                             fontSize: '14px',

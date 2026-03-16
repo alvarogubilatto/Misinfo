@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { colors } from '../design/colors'
 
 export default function PayModal({ open, onClose, pendingPay, state, setState, showToast, showSuccess, formatMXN }) {
     const [selectedAccId, setSelectedAccId] = useState(state.accounts[0]?.id)
@@ -13,7 +14,7 @@ export default function PayModal({ open, onClose, pendingPay, state, setState, s
             balance: s.balance - amt,
             accounts: s.accounts.map(a => a.id === selectedAccId ? { ...a, balance: Math.max(0, a.balance - amt) } : a),
             activities: [
-                { id: s.nextId, icon: pendingPay.icon, bg: '#1e2939', name: pendingPay.name, meta: `Pago · ${acc?.name || ''} · Ahora`, amount: -amt, cat: 'servicios' },
+                { id: s.nextId, icon: pendingPay.icon, bg: colors.dark, name: pendingPay.name, meta: `Pago · ${acc?.name || ''} · Ahora`, amount: -amt, cat: 'servicios' },
                 ...s.activities
             ],
             nextId: s.nextId + 1

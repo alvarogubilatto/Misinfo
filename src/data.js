@@ -1,4 +1,6 @@
 // ===================== DEFAULT STATE =====================
+import { colors } from './design/colors';
+
 export const STORAGE_KEY = 'misinfo_v3';
 
 export const defaultState = {
@@ -8,28 +10,28 @@ export const defaultState = {
     currentTab: 0,
     userName: 'Alex',
     subs: [
-        { id: 1, icon: '📺', color: '#fce4e4', name: 'Netflix Premium', day: 15, price: 299, shared: true, paused: false },
-        { id: 2, icon: '🎵', color: '#e8f5e9', name: 'Spotify Duo', day: 20, price: 179, paused: false },
-        { id: 3, icon: '📦', color: '#e3f2fd', name: 'Amazon Prime', day: 28, price: 99, paused: false },
-        { id: 4, icon: '🎨', color: '#f3e5f5', name: 'Adobe CC', day: 1, price: 699, warning: '⚠ Sube a $749 próx. mes', paused: false },
-        { id: 5, icon: '☁️', color: '#e0f7fa', name: 'iCloud 200GB', day: 5, price: 39, paused: false },
-        { id: 6, icon: '🎮', color: '#fff8e1', name: 'Xbox Game Pass', day: 12, price: 145, paused: false },
+        { id: 1, icon: '📺', color: colors.catRed, name: 'Netflix Premium', day: 15, price: 299, shared: true, paused: false },
+        { id: 2, icon: '🎵', color: colors.catGreen, name: 'Spotify Duo', day: 20, price: 179, paused: false },
+        { id: 3, icon: '📦', color: colors.catBlue, name: 'Amazon Prime', day: 28, price: 99, paused: false },
+        { id: 4, icon: '🎨', color: colors.catPurple, name: 'Adobe CC', day: 1, price: 699, warning: '⚠ Sube a $749 próx. mes', paused: false },
+        { id: 5, icon: '☁️', color: colors.catCyan, name: 'iCloud 200GB', day: 5, price: 39, paused: false },
+        { id: 6, icon: '🎮', color: colors.catYellow, name: 'Xbox Game Pass', day: 12, price: 145, paused: false },
     ],
     activities: [
-        { id: 1, icon: '🍎', bg: '#1e2939', name: 'Apple Store', meta: 'Compras · Hoy, 2:45 PM', amount: -120, cat: 'compras' },
-        { id: 2, icon: '☕', bg: '#008236', name: 'Starbucks', meta: 'Alimentos · Hoy, 9:30 AM', amount: -5.40, cat: 'gasto' },
-        { id: 3, icon: '⚡', bg: '#fe9a00', name: 'Factura de Luz', meta: 'Servicios · Ayer', amount: -145, cat: 'servicios' },
-        { id: 4, icon: '📈', bg: '#009966', name: 'Depósito Sueldo', meta: 'Ingreso · Ayer', amount: 18500, cat: 'ingreso' },
-        { id: 5, icon: '📱', bg: '#9810fa', name: 'Plan Celular', meta: 'Servicios · Hace 2 días', amount: -40, cat: 'servicios' },
+        { id: 1, icon: '🍎', bg: colors.dark, name: 'Apple Store', meta: 'Compras · Hoy, 2:45 PM', amount: -120, cat: 'compras' },
+        { id: 2, icon: '☕', bg: colors.success, name: 'Starbucks', meta: 'Alimentos · Hoy, 9:30 AM', amount: -5.40, cat: 'gasto' },
+        { id: 3, icon: '⚡', bg: colors.warning, name: 'Factura de Luz', meta: 'Servicios · Ayer', amount: -145, cat: 'servicios' },
+        { id: 4, icon: '📈', bg: colors.successBright, name: 'Depósito Sueldo', meta: 'Ingreso · Ayer', amount: 18500, cat: 'ingreso' },
+        { id: 5, icon: '📱', bg: colors.secondary, name: 'Plan Celular', meta: 'Servicios · Hace 2 días', amount: -40, cat: 'servicios' },
     ],
     accounts: [
-        { id: 1, icon: '🏦', color: '#e3f2fd', name: 'Banco Galicia', num: '**** 4321', balance: 28400 },
-        { id: 2, icon: '💳', color: '#f3e5f5', name: 'Banco Nación', num: '**** 8890', balance: 10200 },
-        { id: 3, icon: '🏧', color: '#e8f5e9', name: 'Efectivo', num: 'Billetera', balance: 4250 },
+        { id: 1, icon: '🏦', color: colors.catBlue, name: 'Banco Galicia', num: '**** 4321', balance: 28400 },
+        { id: 2, icon: '💳', color: colors.catPurple, name: 'Banco Nación', num: '**** 8890', balance: 10200 },
+        { id: 3, icon: '🏧', color: colors.catGreen, name: 'Efectivo', num: 'Billetera', balance: 4250 },
     ],
     properties: [
-        { id: 1, icon: '🏡', gradient: 'linear-gradient(135deg,#ddd6fe,#a78bfa)', name: 'Casa Principal', address: 'Av. Corrientes 1234, CABA', value: 4200000, type: 'Propietario', hasWarning: false },
-        { id: 2, icon: '🏖️', gradient: 'linear-gradient(135deg,#fde68a,#fbbf24)', name: 'Depto Playa', address: 'Mar del Plata, Buenos Aires', value: 2800000, type: 'Propietario', hasWarning: true },
+        { id: 1, icon: '🏡', gradient: colors.gradSecondary, name: 'Casa Principal', address: 'Av. Corrientes 1234, CABA', value: 4200000, type: 'Propietario', hasWarning: false },
+        { id: 2, icon: '🏖️', gradient: colors.gradPrimary, name: 'Depto Playa', address: 'Mar del Plata, Buenos Aires', value: 2800000, type: 'Propietario', hasWarning: true },
     ],
     nextId: 100,
 };
@@ -84,7 +86,7 @@ export const chartData = {
 };
 
 export const reportData = {
-    '2025': { total: '$19.6k', slices: [{ v: 45, c: '#6c35de', label: 'Vivienda', val: '$8.8k' }, { v: 25, c: '#f59e0b', label: 'Impuestos', val: '$4.9k' }, { v: 20, c: '#10b981', label: 'Servicios', val: '$3.9k' }, { v: 10, c: '#f05096', label: 'Suscripciones', val: '$2.0k' }] },
-    '2024': { total: '$17.2k', slices: [{ v: 40, c: '#6c35de', label: 'Vivienda', val: '$6.9k' }, { v: 28, c: '#f59e0b', label: 'Impuestos', val: '$4.8k' }, { v: 22, c: '#10b981', label: 'Servicios', val: '$3.8k' }, { v: 10, c: '#f05096', label: 'Suscripciones', val: '$1.7k' }] },
-    '2023': { total: '$14.8k', slices: [{ v: 38, c: '#6c35de', label: 'Vivienda', val: '$5.6k' }, { v: 30, c: '#f59e0b', label: 'Impuestos', val: '$4.4k' }, { v: 20, c: '#10b981', label: 'Servicios', val: '$3.0k' }, { v: 12, c: '#f05096', label: 'Suscripciones', val: '$1.8k' }] },
+    '2025': { total: '$19.6k', slices: [{ v: 45, c: colors.chartVivienda, label: 'Vivienda', val: '$8.8k' }, { v: 25, c: colors.chartImpuestos, label: 'Impuestos', val: '$4.9k' }, { v: 20, c: colors.chartServicios, label: 'Servicios', val: '$3.9k' }, { v: 10, c: colors.chartSubs, label: 'Suscripciones', val: '$2.0k' }] },
+    '2024': { total: '$17.2k', slices: [{ v: 40, c: colors.chartVivienda, label: 'Vivienda', val: '$6.9k' }, { v: 28, c: colors.chartImpuestos, label: 'Impuestos', val: '$4.8k' }, { v: 22, c: colors.chartServicios, label: 'Servicios', val: '$3.8k' }, { v: 10, c: colors.chartSubs, label: 'Suscripciones', val: '$1.7k' }] },
+    '2023': { total: '$14.8k', slices: [{ v: 38, c: colors.chartVivienda, label: 'Vivienda', val: '$5.6k' }, { v: 30, c: colors.chartImpuestos, label: 'Impuestos', val: '$4.4k' }, { v: 20, c: colors.chartServicios, label: 'Servicios', val: '$3.0k' }, { v: 12, c: colors.chartSubs, label: 'Suscripciones', val: '$1.8k' }] },
 };

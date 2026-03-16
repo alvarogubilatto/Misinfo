@@ -1,18 +1,19 @@
 import { useState } from 'react'
+import { colors } from '../design/colors'
 
 const EMOJIS = ['📺', '🎵', '📦', '🎨', '☁️', '🎮', '📰', '💪', '🛡️', '🔧']
 const COLORS = [
-    { val: '#fce4e4', style: { background: '#fce4e4', borderColor: '#fce4e4' } },
-    { val: '#e8f5e9', style: { background: '#e8f5e9', borderColor: '#e8f5e9' } },
-    { val: '#e3f2fd', style: { background: '#e3f2fd', borderColor: '#e3f2fd' } },
-    { val: '#f3e5f5', style: { background: '#f3e5f5', borderColor: '#f3e5f5' } },
-    { val: '#e0f7fa', style: { background: '#e0f7fa', borderColor: '#e0f7fa' } },
-    { val: '#fff8e1', style: { background: '#fff8e1', borderColor: '#fff8e1' } },
+    { val: colors.catRed, style: { background: colors.catRed, borderColor: colors.catRed } },
+    { val: colors.catGreen, style: { background: colors.catGreen, borderColor: colors.catGreen } },
+    { val: colors.catBlue, style: { background: colors.catBlue, borderColor: colors.catBlue } },
+    { val: colors.catPurple, style: { background: colors.catPurple, borderColor: colors.catPurple } },
+    { val: colors.catCyan, style: { background: colors.catCyan, borderColor: colors.catCyan } },
+    { val: colors.catYellow, style: { background: colors.catYellow, borderColor: colors.catYellow } },
 ]
 
 export default function AddSubModal({ open, onClose, state, setState, showToast, showSuccess }) {
     const [emoji, setEmoji] = useState('📺')
-    const [color, setColor] = useState('#fce4e4')
+    const [color, setColor] = useState(colors.catRed)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [day, setDay] = useState('')

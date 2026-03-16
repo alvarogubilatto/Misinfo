@@ -1,10 +1,12 @@
+import { colors } from '../design/colors'
+
 export default function ServicesModal({ open, onClose, propName, handlePay, showToast }) {
     const services = [
-        { icon: '⚡', bg: '#fff3cd', name: 'Electricidad', company: 'CFE', due: '● Vence en 5 días', dueClass: 'due-warn', amount: '$850', period: 'Variable', payable: true, payName: 'Electricidad CFE', payAmt: '$850' },
-        { icon: '💧', bg: '#e0f7fa', name: 'Agua', company: 'SACMEX', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$320', period: 'Variable', payable: false, toast: '✅ Agua ya pagada este mes' },
-        { icon: '🔥', bg: '#fff8e1', name: 'Gas', company: 'Gas Natural', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$480', period: 'Variable', payable: false, toast: '✅ Gas pagado este mes' },
-        { icon: '🌐', bg: '#e8f5e9', name: 'Internet', company: 'Telmex Infinitum', due: '● Vence en 1 día', dueClass: 'due-warn', amount: '$699', period: 'Fijo', payable: true, payName: 'Internet Telmex', payAmt: '$699' },
-        { icon: '🏢', bg: '#fce4e4', name: 'Condominio', company: 'Administración', due: '● Vencido hace 3 días', dueClass: 'due-warn', amount: '$1,200', period: 'Fijo', payable: true, payName: 'Condominio', payAmt: '$1,200' },
+        { icon: '⚡', bg: colors.catYellow, name: 'Electricidad', company: 'CFE', due: '● Vence en 5 días', dueClass: 'due-warn', amount: '$850', period: 'Variable', payable: true, payName: 'Electricidad CFE', payAmt: '$850' },
+        { icon: '💧', bg: colors.catCyan, name: 'Agua', company: 'SACMEX', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$320', period: 'Variable', payable: false, toast: '✅ Agua ya pagada este mes' },
+        { icon: '🔥', bg: colors.catOrange, name: 'Gas', company: 'Gas Natural', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$480', period: 'Variable', payable: false, toast: '✅ Gas pagado este mes' },
+        { icon: '🌐', bg: colors.catGreen, name: 'Internet', company: 'Telmex Infinitum', due: '● Vence en 1 día', dueClass: 'due-warn', amount: '$699', period: 'Fijo', payable: true, payName: 'Internet Telmex', payAmt: '$699' },
+        { icon: '🏢', bg: colors.catRed, name: 'Condominio', company: 'Administración', due: '● Vencido hace 3 días', dueClass: 'due-warn', amount: '$1,200', period: 'Fijo', payable: true, payName: 'Condominio', payAmt: '$1,200' },
     ]
 
     return (
