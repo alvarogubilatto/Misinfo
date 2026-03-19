@@ -99,73 +99,107 @@ export default function HomeScreen({
     return (
         <div className={className}>
             <div className="home-inner">
+
+                {/* --- HEADER --- */}
                 <HomeHeader 
                     state={state} 
                     toggleDarkMode={toggleDarkMode} 
                     openPanel={openPanel} 
                 />
 
-                <BalanceCard 
-                    state={state}
-                    balHidden={balHidden}
-                    setBalHidden={setBalHidden}
-                    diff={diff}
-                    ingresos={ingresos}
-                    gastos={gastos}
-                    subsTotal={subsTotal}
-                    formatMXN={formatMXN}
-                    openModal={openModal}
-                    openPanel={openPanel}
-                />
-
-                <div className="stagger-3">
-                    <WeeklyDigest 
-                        activities={state.activities} 
-                        formatMXN={formatMXN} 
-                    />
+                {/* --- HERO ROW: BalanceCard (2fr) + QuickActions (1fr) --- */}
+                <div className="home-hero-row stagger-1">
+                    <div className="home-hero-main">
+                        <BalanceCard 
+                            state={state}
+                            balHidden={balHidden}
+                            setBalHidden={setBalHidden}
+                            diff={diff}
+                            ingresos={ingresos}
+                            gastos={gastos}
+                            subsTotal={subsTotal}
+                            formatMXN={formatMXN}
+                            openModal={openModal}
+                            openPanel={openPanel}
+                        />
+                    </div>
+                    <div className="home-quick-actions">
+                        <div className="action-btn" onClick={() => openModal('addFunds')}>
+                            <div className="action-icon"><Icon name="add" /></div>
+                            <span className="action-label">Cargar</span>
+                        </div>
+                        <div className="action-btn" onClick={() => showToast('Función próximamente', 'info')}>
+                            <div className="action-icon"><Icon name="send" /></div>
+                            <span className="action-label">Enviar</span>
+                        </div>
+                        <div className="action-btn" onClick={() => openPanel('accounts')}>
+                            <div className="action-icon"><Icon name="card" /></div>
+                            <span className="action-label">Tarjetas</span>
+                        </div>
+                    </div>
                 </div>
 
-                <UpcomingPayments 
-                    selectedVenc={selectedVenc}
-                    toggleVenc={toggleVenc}
-                    selectedTotal={selectedTotal}
-                    paySelected={paySelected}
-                    handlePay={handlePay}
-                    showToast={showToast}
-                    switchToSubs={switchToSubs}
-                    progressW={progressW}
-                />
+                {/* --- INSIGHTS ROW: WeeklyDigest (1fr) + Chart (2fr) --- */}
+                <div className="home-section-label stagger-2">Análisis y Gráficos</div>
+                <div className="home-insights-row stagger-3">
+                    <div className="home-weekly">
+                        <WeeklyDigest 
+                            activities={state.activities} 
+                            formatMXN={formatMXN} 
+                        />
+                    </div>
+                    <div className="home-chart">
+                        <HomeChart 
+                            chartPeriod={chartPeriod}
+                            setChartPeriod={setChartPeriod}
+                        />
+                    </div>
+                </div>
 
-                <HomeChart 
-                    chartPeriod={chartPeriod}
-                    setChartPeriod={setChartPeriod}
-                />
+                {/* --- BOTTOM ROW: UpcomingPayments (1fr) + ActivityList (2fr) --- */}
+                <div className="home-bottom-row stagger-4">
+                    <div className="home-payments">
+                        <div className="home-section-label">Pagos Próximos</div>
+                        <UpcomingPayments 
+                            selectedVenc={selectedVenc}
+                            toggleVenc={toggleVenc}
+                            selectedTotal={selectedTotal}
+                            paySelected={paySelected}
+                            handlePay={handlePay}
+                            showToast={showToast}
+                            switchToSubs={switchToSubs}
+                            progressW={progressW}
+                        />
+                    </div>
+                    <div className="home-activity">
+                        <div className="home-section-label">Actividad Reciente</div>
+                        <ActivityList 
+                            filteredActs={filteredActs}
+                            actSearch={actSearch}
+                            setActSearch={setActSearch}
+                            actFilter={actFilter}
+                            setActFilter={setActFilter}
+                            groupedActs={groupedActs}
+                            totalFiltered={totalFiltered}
+                            actLimit={actLimit}
+                            setActLimit={setActLimit}
+                            showToast={showToast}
+                            openPanel={openPanel}
+                        />
+                    </div>
+                </div>
 
-                <div className="sync-card stagger-6" onClick={() => showToast('Sincronizando tus cuentas...', 'info')}>
-                    <Icon name="sync" style={{ width: 24, height: 24, color: 'var(--primary)' }} />
-                    <div style={{ flex: 1 }}>
+                {/* --- FOOTER / SYNC --- */}
+                <div className="sync-card-compact stagger-5" onClick={() => showToast('Sincronizando tus cuentas...', 'info')}>
+                    <Icon name="sync" style={{ width: 18, height: 18, color: 'var(--secondary)' }} />
+                    <div className="sync-info">
                         <div className="sync-name">Sincronización Bancaria</div>
-                        <div className="sync-detail">3 cuentas · Actualizado hace 5 min</div>
+                        <div className="sync-detail">Actualizado hace 5 min</div>
                     </div>
                     <div className="sync-status">
-                        <div className="sync-dot" />
-                        <div className="sync-label">Activo</div>
+                        <div className="sync-dot" style={{ width: 6, height: 6 }} />
                     </div>
                 </div>
-
-                <ActivityList 
-                    filteredActs={filteredActs}
-                    actSearch={actSearch}
-                    setActSearch={setActSearch}
-                    actFilter={actFilter}
-                    setActFilter={setActFilter}
-                    groupedActs={groupedActs}
-                    totalFiltered={totalFiltered}
-                    actLimit={actLimit}
-                    setActLimit={setActLimit}
-                    showToast={showToast}
-                    openPanel={openPanel}
-                />
 
                 <div style={{ height: 28 }} />
             </div>

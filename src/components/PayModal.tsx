@@ -44,9 +44,10 @@ export default function PayModal({ open, onClose, pendingPay, state, showToast, 
                 <div className="pay-confirm-detail">
                     <div className="pay-confirm-icon"><Icon name={pendingPay.icon} /></div>
                     <div className="pay-confirm-name">{pendingPay.name}</div>
-                    <div className="pay-confirm-amount">{pendingPay.amount}</div>
+                    <div className="pay-confirm-amount">{formatMXN(pendingPay.amount)}</div>
+                    <div className="receipt-divider" />
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px' }}>Pagar con</div>
+                <div className="pay-label-sm">Pagar con</div>
                 <div className="pay-methods">
                     {state.accounts.map(a => (
                         <div key={a.id} className={`pay-method${selectedAccId === a.id ? ' selected' : ''}`} onClick={() => setSelectedAccId(a.id)}>
@@ -55,8 +56,8 @@ export default function PayModal({ open, onClose, pendingPay, state, showToast, 
                         </div>
                     ))}
                 </div>
-                <div style={{ background: 'var(--bg)', borderRadius: 12, padding: '12px 14px', margin: '12px 0', fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.5, border: '1px solid var(--border)', display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <Icon name="servicios" style={{ width: 16, height: 16, color: 'var(--warning)', flexShrink: 0 }} />
+                <div className="pay-info-box">
+                    <Icon name="servicios" style={{ width: 16, height: 16, color: 'var(--secondary)', flexShrink: 0 }} />
                     <span>El monto se descontará de tu saldo disponible inmediatamente.</span>
                 </div>
                 <button className="btn-confirm-pay" onClick={executePay}>Pagar Ahora</button>

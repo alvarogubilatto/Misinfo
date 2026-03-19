@@ -1,10 +1,12 @@
 schema: spec-driven
 
 context: |
-  Tech stack: React (JSX), Vite, CSS (no Tailwind), JavaScript ES6+
-  Architecture: Container-Presentational, Screaming Architecture, Feature-grouped components
-  Testing: None explicitly configured yet
-  Style: Custom CSS tokens, DM Sans & MuseoModerno typography
+  Tech stack: React 18, TypeScript, Vite 5, CSS (vanilla, no Tailwind)
+  Architecture: Screaming Architecture, Container-Presentational, Feature-grouped components
+  Testing: None configured
+  Style: Custom CSS tokens, DM Sans & MuseoModerno typography, dark mode
+  State: Local store (src/store/), custom hooks (src/hooks/)
+  Services: auth, finance, subs, ui (src/services/)
 
 rules:
   proposal:
@@ -23,8 +25,11 @@ rules:
   apply:
     - Follow existing code patterns and conventions
     - Load relevant coding skills for the project stack
+    tdd: false
+    test_command: ""
   verify:
-    - Run tests if test infrastructure exists
-    - Compare implementation against every spec scenario
+    test_command: ""
+    build_command: "npm run build"
+    coverage_threshold: 0
   archive:
     - Warn before merging destructive deltas (large removals)

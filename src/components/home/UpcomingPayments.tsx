@@ -6,7 +6,7 @@ interface UpcomingPaymentsProps {
     toggleVenc: (id: string) => void;
     selectedTotal: number;
     paySelected: () => void;
-    handlePay: (name: string, amount: string, icon: string) => void;
+    handlePay: (name: string, amount: number, icon: string) => void;
     showToast: (msg: string, type?: string) => void;
     switchToSubs: () => void;
     progressW: number;
@@ -61,7 +61,7 @@ export default function UpcomingPayments({
                         <div className="progress-fill" style={{ width: `${progressW}%`, background: 'var(--primary)' }} />
                     </div>
                     <div className="progress-labels"><span>85% del plazo</span><span>12 Mar</span></div>
-                    <button className="btn-pay" onClick={() => handlePay('ABL / Inmobiliario', '$2,400', 'bank')}>Pagar Ahora</button>
+                    <button className="btn-pay" onClick={() => handlePay('ABL / Inmobiliario', 2400, 'bank')}>Pagar Ahora</button>
                 </div>
             </div>
 
