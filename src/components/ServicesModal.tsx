@@ -5,17 +5,17 @@ interface ServicesModalProps {
     open: boolean;
     onClose: () => void;
     propName: string;
-    handlePay: (name: string, amt: string, icon: string) => void;
+    handlePay: (name: string, amt: number, icon: string) => void;
     showToast: (msg: string, type?: string) => void;
 }
 
 export default function ServicesModal({ open, onClose, propName, handlePay, showToast }: ServicesModalProps) {
     const services = [
-        { icon: 'servicios', bg: 'var(--cat-bg-yellow)', name: 'Electricidad', company: 'CFE', due: '● Vence en 5 días', dueClass: 'due-warn', amount: '$850', period: 'Variable', payable: true, payName: 'Electricidad CFE', payAmt: '$850' },
+        { icon: 'servicios', bg: 'var(--cat-bg-yellow)', name: 'Electricidad', company: 'CFE', due: '● Vence en 5 días', dueClass: 'due-warn', amount: '$850', period: 'Variable', payable: true, payName: 'Electricidad CFE', payAmt: 850 },
         { icon: 'water', bg: 'var(--cat-bg-cyan)', name: 'Agua', company: 'SACMEX', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$320', period: 'Variable', payable: false, toast: 'Agua ya pagada este mes' },
         { icon: 'flame', bg: 'var(--cat-bg-orange)', name: 'Gas', company: 'Gas Natural', due: '● Pagado este mes', dueClass: 'due-ok', amount: '$480', period: 'Variable', payable: false, toast: 'Gas pagado este mes' },
-        { icon: 'globe', bg: 'var(--cat-bg-green)', name: 'Internet', company: 'Telmex Infinitum', due: '● Vence en 1 día', dueClass: 'due-warn', amount: '$699', period: 'Fijo', payable: true, payName: 'Internet Telmex', payAmt: '$699' },
-        { icon: 'bank', bg: 'var(--cat-bg-red)', name: 'Condominio', company: 'Administración', due: '● Vencidó hace 3 días', dueClass: 'due-warn', amount: '$1,200', period: 'Fijo', payable: true, payName: 'Condominio', payAmt: '$1,200' },
+        { icon: 'globe', bg: 'var(--cat-bg-green)', name: 'Internet', company: 'Telmex Infinitum', due: '● Vence en 1 día', dueClass: 'due-warn', amount: '$699', period: 'Fijo', payable: true, payName: 'Internet Telmex', payAmt: 699 },
+        { icon: 'bank', bg: 'var(--cat-bg-red)', name: 'Condominio', company: 'Administración', due: '● Vencidó hace 3 días', dueClass: 'due-warn', amount: '$1,200', period: 'Fijo', payable: true, payName: 'Condominio', payAmt: 1200 },
     ]
 
     return (
@@ -41,7 +41,7 @@ export default function ServicesModal({ open, onClose, propName, handlePay, show
                     <div
                         key={i}
                         className="service-item"
-                        onClick={() => s.payable ? (onClose(), setTimeout(() => handlePay(s.payName, s.payAmt, s.icon || 'servicios'), 10)) : (s.toast && showToast(s.toast))}
+                        onClick={() => s.payable ? (onClose(), setTimeout(() => handlePay(s.payName, s.payAmt, (s.icon || 'servicios') as string), 10)) : (s.toast && showToast(s.toast))}
                     >
                         <div className="service-icon" style={{ background: s.bg }}>
                             <Icon name={s.icon as any} />

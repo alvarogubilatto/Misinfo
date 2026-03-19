@@ -23,7 +23,7 @@ import AddSubModal from './components/AddSubModal'
 import AddPropModal from './components/AddPropModal'
 import ServicesModal from './components/ServicesModal'
 import Toast from './components/Toast'
-import SuccessOverlay from './components/SuccessOverlay'
+import FeedbackOverlay from './components/FeedbackOverlay'
 import Onboarding from './components/Onboarding'
 
 const TAB_ORDER = ['home', 'subs', 'props', 'reports'] as const;
@@ -80,12 +80,14 @@ export default function App() {
         { label: 'Suscripciones', icon: 'subs' },
         { label: 'Inmuebles', icon: 'building' },
         { label: 'Reportes', icon: 'reports' },
+        { label: 'Perfil', icon: 'profile' }
     ]
 
     const commonProps = { 
         state, 
         showToast: uiService.showToast, 
-        showSuccess: uiService.showSuccess, 
+        showSuccess: uiService.showSuccess,
+        showError: uiService.showError,
         formatMXN 
     }
 
@@ -99,8 +101,13 @@ export default function App() {
 
     return (
         <div className="app-container" id="phoneFrame">
-            <Toast msg={state.toast?.msg || ''} show={!!state.toast?.show} type={state.toast?.type || undefined} />
-            <SuccessOverlay show={!!state.success?.show} text={state.success?.text || ''} sub={state.success?.sub || undefined} />
+            <Toast msg={state.toast?.msg || ''} show={!!state.toast?.show} type={state.toast?.type || 'info'} />
+            <FeedbackOverlay 
+                show={!!state.feedback?.show} 
+                text={state.feedback?.text || ''} 
+                sub={state.feedback?.sub || undefined} 
+                type={state.feedback?.type || 'success'} 
+            />
 
             <Onboarding show={!!(showOnboarding && isAuthenticated)} onComplete={handleOnboardingComplete} />
 

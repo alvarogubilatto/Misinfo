@@ -57,9 +57,10 @@ export interface AppState {
         show: boolean;
         type: string;
     };
-    success?: {
+    feedback?: {
         show: boolean;
         text: string;
-        sub: string;
+        sub?: string;
+        type: 'success' | 'error';
     };
 }

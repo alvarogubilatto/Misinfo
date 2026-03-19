@@ -15,13 +15,23 @@ export const uiService = {
   },
 
   showSuccess: (text: string, sub: string = ''): void => {
-    store.setState(s => ({ ...s, success: { show: true, text, sub } }))
+    store.setState(s => ({ ...s, feedback: { show: true, text, sub, type: 'success' } }))
     setTimeout(() => {
       store.setState(s => {
-        if (!s.success) return s
-        return { ...s, success: { ...s.success, show: false } }
+        if (!s.feedback) return s
+        return { ...s, feedback: { ...s.feedback, show: false } }
       })
     }, 2200)
+  },
+  
+  showError: (text: string, sub: string = ''): void => {
+    store.setState(s => ({ ...s, feedback: { show: true, text, sub, type: 'error' } }))
+    setTimeout(() => {
+      store.setState(s => {
+        if (!s.feedback) return s
+        return { ...s, feedback: { ...s.feedback, show: false } }
+      })
+    }, 2500)
   },
 
   toggleDarkMode: (): void => {
