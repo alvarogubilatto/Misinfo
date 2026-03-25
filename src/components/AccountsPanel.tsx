@@ -33,7 +33,7 @@ export default function AccountsPanel({ open, onClose, state, formatMXN, showToa
                     {state.accounts.map(a => (
                         <div key={a.id} className="account-card">
                             <div className="account-icon" style={{ background: a.color }}>
-                                <Icon name={a.icon} />
+                                <Icon name={a.icon} domain={a.domain} />
                             </div>
                             <div>
                                 <div className="account-name">{a.name}</div>

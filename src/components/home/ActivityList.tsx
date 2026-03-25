@@ -67,7 +67,7 @@ export default function ActivityList({
                             return (
                                 <div key={a.id} className="activity-item" onClick={() => showToast(`Detalle de ${a.name}`, 'info')}>
                                     <div className="activity-icon" style={{ background: a.bg }}>
-                                        <Icon name={a.icon} />
+                                        <Icon name={a.icon} domain={a.domain} />
                                     </div>
                                     <div className="activity-info">
                                         <div className="activity-name">{a.name}</div>

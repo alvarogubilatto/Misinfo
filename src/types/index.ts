@@ -8,6 +8,7 @@ export interface Subscription {
     shared?: boolean;
     paused: boolean;
     warning?: string;
+    domain?: string;
 }
 
 export interface Activity {
@@ -18,6 +19,7 @@ export interface Activity {
     meta: string;
     amount: number;
     cat: 'ingreso' | 'gasto' | 'servicios' | 'compras';
+    domain?: string;
 }
 
 export interface Account {
@@ -27,6 +29,7 @@ export interface Account {
     name: string;
     num: string;
     balance: number;
+    domain?: string;
 }
 
 export interface Property {

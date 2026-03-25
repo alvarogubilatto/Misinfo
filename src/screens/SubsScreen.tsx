@@ -112,7 +112,7 @@ export default function SubsScreen({ className, state, showToast, showSuccess, f
                     ) : filtered.map(s => (
                         <div key={s.id} className="sub-item">
                             <div className="sub-app-icon" style={{ background: s.color }}>
-                                <Icon name={s.icon} />
+                                <Icon name={s.icon} domain={s.domain} />
                             </div>
                             <div className="sub-info">
                                 <div className="sub-name-row">

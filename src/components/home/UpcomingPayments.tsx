@@ -20,9 +20,9 @@ export default function UpcomingPayments({
     const cardIcon = <Icon name="card" style={{ width: 16, height: 16 }} />
 
     const VENCIMIENTOS = [
-        { id: 'abl', name: 'ABL / Inmobiliario', amount: 2400, icon: 'bank', paid: false },
+        { id: 'abl', name: 'ABL / Inmobiliario', amount: 2400, icon: 'bank', paid: false, domain: 'buenosaires.gob.ar' },
         { id: 'renta', name: 'Renta Marzo', amount: 12500, icon: 'home', paid: false },
-        { id: 'spotify', name: 'Spotify', amount: 179, icon: 'spotify', paid: true },
+        { id: 'spotify', name: 'Spotify', amount: 179, icon: 'spotify', paid: true, domain: 'spotify.com' },
     ]
 
     return (
@@ -46,7 +46,7 @@ export default function UpcomingPayments({
                                     <Icon name="check" style={{ strokeWidth: 3 }} />
                                 )}
                             </div>
-                            <div className="venc-icon-wrap"><Icon name="bank" /></div>
+                            <div className="venc-icon-wrap"><Icon name="bank" domain="buenosaires.gob.ar" /></div>
                             <div>
                                 <div className="venc-name">ABL / Inmobiliario</div>
                                 <div className="venc-badge">{clockIcon} Vence en 3 días</div>
@@ -86,7 +86,7 @@ export default function UpcomingPayments({
                 </div>
                 <div className="mini-venc-card" onClick={() => showToast('Spotify ya fue pagado', 'success')}>
                     <div className="mini-dot-accent" style={{ background: 'var(--cat-green)' }} />
-                    <div className="mini-venc-icon"><Icon name="spotify" /></div>
+                    <div className="mini-venc-icon"><Icon name="spotify" domain="spotify.com" /></div>
                     <div className="mini-name">Spotify</div>
                     <div className="mini-amount">$179</div>
                     <div className="mini-status mini-status-paid">✓ Pagado ayer</div>

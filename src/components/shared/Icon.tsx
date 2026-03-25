@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const ICONS: Record<string, React.ReactNode> = {
     // Subscriptions
@@ -62,17 +62,44 @@ export const ICONS: Record<string, React.ReactNode> = {
     trendingUp: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6" /><polyline points="17 18 23 18 23 12" /></svg>,
     tag: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg>,
     sync: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>,
+    add: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>,
+    send: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>,
     shieldCheck: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>,
 };
 
 interface IconProps {
     name: string;
+    domain?: string | undefined;
     style?: React.CSSProperties;
     className?: string;
 }
 
-export function Icon({ name, style, className }: IconProps) {
+export function Icon({ name, domain, style, className }: IconProps) {
+    const [logoError, setLogoError] = useState(false);
+
+    if (domain && !logoError) {
+        return (
+            <img 
+                src={`https://logo.clearbit.com/${domain}?size=128`} 
+                alt={name}
+                className={className}
+                style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'contain', 
+                    borderRadius: '4px',
+                    ...style 
+                }}
+                onError={() => {
+                    console.log(`Failed to load logo for ${domain}, falling back to icon ${name}`);
+                    setLogoError(true);
+                }}
+            />
+        );
+    }
+
     const icon = ICONS[name] || <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>;
+    
     return (
         <span className={className} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', ...style }}>
             {icon}
