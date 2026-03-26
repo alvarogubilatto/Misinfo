@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { containerVariants, itemVariants } from '../utils/animations';
 
 interface LoginScreenProps {
     onLogin: () => void;
@@ -32,36 +34,49 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
             background: 'var(--bg)',
             color: 'var(--text)'
         }}>
-            <div style={{
-                width: '100%',
-                maxWidth: '400px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px'
-            }}>
-                <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                    <div style={{
-                        width: '64px',
-                        height: '64px',
-                        background: 'var(--grad-primary)',
-                        borderRadius: '16px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        margin: '0 auto 16px',
-                        color: 'white',
-                        fontSize: '32px',
-                        fontWeight: 'bold',
-                        boxShadow: 'var(--shadow-sm)'
-                    } as React.CSSProperties}>
+            <motion.div 
+                style={{
+                    width: '100%',
+                    maxWidth: '400px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '24px'
+                }}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
+                <motion.div variants={itemVariants} style={{ textAlign: 'center', marginBottom: '16px' }}>
+                    <motion.div 
+                        style={{
+                            width: '64px',
+                            height: '64px',
+                            background: 'var(--grad-primary)',
+                            borderRadius: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            margin: '0 auto 16px',
+                            color: 'white',
+                            fontSize: '32px',
+                            fontWeight: 'bold',
+                            boxShadow: 'var(--shadow-sm)'
+                        }}
+                        whileHover={{ scale: 1.05, rotate: 5 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
                         V
-                    </div>
+                    </motion.div>
                     <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800' }}>VOXU</h1>
                     <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>Bienvenido de nuevo</p>
-                </div>
+                </motion.div>
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div className="form-group">
+                <motion.form 
+                    onSubmit={handleSubmit} 
+                    style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+                    variants={containerVariants}
+                >
+                    <motion.div className="form-group" variants={itemVariants}>
                         <label className="form-label">Email</label>
                         <input
                             className="form-input"
@@ -72,8 +87,8 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                             required
                             style={{ padding: '14px 16px', fontSize: '15px' }}
                         />
-                    </div>
-                    <div className="form-group">
+                    </motion.div>
+                    <motion.div className="form-group" variants={itemVariants}>
                         <label className="form-label">Contraseña</label>
                         <input
                             className="form-input"
@@ -84,27 +99,38 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                             required
                             style={{ padding: '14px 16px', fontSize: '15px' }}
                         />
-                    </div>
+                    </motion.div>
 
                     {error && (
-                        <div style={{
-                            color: 'var(--red)',
-                            backgroundColor: 'var(--cat-bg-red)',
-                            padding: '12px 16px',
-                            borderRadius: '8px',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            textAlign: 'center'
-                        }}>
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            style={{
+                                color: 'var(--red)',
+                                backgroundColor: 'var(--cat-bg-red)',
+                                padding: '12px 16px',
+                                borderRadius: '8px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                textAlign: 'center'
+                            }}
+                        >
                             {error}
-                        </div>
+                        </motion.div>
                     )}
 
-                    <button className="btn-save" type="submit" style={{ marginTop: '8px', fontSize: '16px', padding: '16px', borderRadius: '12px' }}>
+                    <motion.button 
+                        className="btn-save" 
+                        type="submit" 
+                        style={{ marginTop: '8px', fontSize: '16px', padding: '16px', borderRadius: '12px' }}
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
                         Iniciar Sesión
-                    </button>
-                </form>
-            </div>
+                    </motion.button>
+                </motion.form>
+            </motion.div>
         </div>
     )
 }

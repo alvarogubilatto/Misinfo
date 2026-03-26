@@ -1,6 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import AnimatedNumber from './AnimatedNumber';
 import { Icon } from '../shared/Icon';
+import { itemVariants } from '../../utils/animations';
 import type { AppState } from '../../types';
 
 interface BalanceCardProps {
@@ -23,7 +25,12 @@ export default function BalanceCard({
     const healthLabel = diff > 5000 ? 'Mes saludable' : diff > 0 ? 'Cuidado con los gastos' : 'Gastos superan ingresos'
 
     return (
-        <div className="balance-card stagger-2">
+        <motion.div 
+            className="balance-card"
+            variants={itemVariants}
+            whileHover={{ y: -4, boxShadow: 'var(--shadow-lg)' }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        >
             <div className={`health-indicator ${healthStatus}`}>{healthLabel}</div>
             <div className="balance-label">Saldo Total</div>
             <div className="balance-row">
@@ -64,6 +71,7 @@ export default function BalanceCard({
                     Cuentas
                 </button>
             </div>
-        </div>
+        </motion.div>
     )
 }
+

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import { authService } from '../services/auth.service';
 
@@ -22,6 +22,18 @@ vi.mock('../screens/LoginScreen', () => ({
 
 vi.mock('../screens/HomeScreen', () => ({
   default: () => <div data-testid="home-screen" />
+}));
+
+vi.mock('../screens/SubsScreen', () => ({
+  default: () => <div data-testid="subs-screen">Suscripciones Content</div>
+}));
+
+vi.mock('../screens/PropsScreen', () => ({
+  default: () => <div data-testid="props-screen" />
+}));
+
+vi.mock('../screens/ReportsScreen', () => ({
+  default: () => <div data-testid="reports-screen" />
 }));
 
 vi.mock('../components/shared/Icon', () => ({
@@ -60,15 +72,17 @@ describe('App Integration', () => {
     expect(authService.login).toHaveBeenCalled();
   });
 
-  it('navigates through tabs', () => {
+  it('navigates through tabs', async () => {
     vi.mocked(authService.isAuthenticated).mockReturnValue(true);
     render(<App />);
     
     const subsTab = screen.getAllByText('Suscripciones').find(el => el.closest('button'))?.closest('button');
     fireEvent.click(subsTab!);
     
-    // In App.tsx, switching tabs changes what screen is rendered
-    // We can verify if the screen container exists (it's rendered by switch case)
-    expect(screen.getAllByText('Suscripciones').length).toBeGreaterThan(1);
+    // Use waitFor because AnimatePresence might delay the rendering
+    await waitFor(() => {
+      expect(screen.getByTestId('subs-screen')).toBeInTheDocument();
+    });
   });
 });
+

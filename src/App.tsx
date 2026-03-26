@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from './hooks/useStore'
 import { authService } from './services/auth.service'
 import { uiService } from './services/ui.service'
@@ -134,7 +135,12 @@ export default function App() {
                             onClick={() => switchTab(idx)}
                         >
                             <div className="nav-icon-wrap">
-                                <div className="nav-icon"><Icon name={item.icon} /></div>
+                                <motion.div 
+                                    className="nav-icon"
+                                    animate={currentTab === idx ? { y: -2, scale: 1.1 } : { y: 0, scale: 1 }}
+                                >
+                                    <Icon name={item.icon} />
+                                </motion.div>
                             </div>
                             <span className="nav-label">{item.label}</span>
                         </button>
@@ -143,66 +149,67 @@ export default function App() {
             </nav>
 
             {/* Main Content Area */}
-            <main className="app-content">
-                {TAB_ORDER.map((tab, idx) => {
-                    const isActive = currentTab === idx
-                    let cls = 'screen'
-                    if (isActive) {
-                        cls += ' active'
-                        if (animDir) cls += ' ' + animDir
-                    }
-                    
-                    if (!isActive) return <div key={tab} className="screen" style={{ display: 'none' }} />;
-
-                    switch(tab) {
-                        case 'home':
-                            return (
-                                <HomeScreen
-                                    key="home"
-                                    className={cls}
-                                    state={state}
-                                    showToast={uiService.showToast}
-                                    showSuccess={uiService.showSuccess}
-                                    formatMXN={formatMXN}
-                                    toggleDarkMode={uiService.toggleDarkMode}
-                                    openPanel={(p: any) => setOpenPanel(p)}
-                                    openModal={(m: any) => setOpenModal(m)}
-                                    switchToSubs={() => switchTab(1)}
-                                    handlePay={handlePay}
-                                />
-                            );
-                        case 'subs':
-                            return (
-                                <SubsScreen
-                                    key="subs"
-                                    className={cls}
-                                    {...commonProps}
-                                    openModal={() => setOpenModal('addSub')}
-                                />
-                            );
-                        case 'props':
-                            return (
-                                <PropsScreen
-                                    key="props"
-                                    className={cls}
-                                    {...commonProps}
-                                    openAddProp={() => setOpenModal('addProp')}
-                                    openServicesModal={openServicesModal}
-                                />
-                            );
-                        case 'reports':
-                            return (
-                                <ReportsScreen
-                                    key="reports"
-                                    className={cls}
-                                    showToast={uiService.showToast}
-                                    showSuccess={uiService.showSuccess}
-                                />
-                            );
-                        default:
-                            return null;
-                    }
-                })}
+            <main className="app-content" style={{ position: 'relative', overflow: 'hidden' }}>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={TAB_ORDER[currentTab]}
+                        initial={{ opacity: 0, x: animDir === 'slide-left' ? 20 : -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: animDir === 'slide-left' ? -20 : 20 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="screen-wrapper"
+                        style={{ height: '100%', width: '100%' }}
+                    >
+                        {(() => {
+                            const tab = TAB_ORDER[currentTab]
+                            const common = { 
+                                state, 
+                                showToast: uiService.showToast, 
+                                showSuccess: uiService.showSuccess,
+                                formatMXN,
+                                className: 'screen active'
+                            }
+                            
+                            switch(tab) {
+                                case 'home':
+                                    return (
+                                        <HomeScreen
+                                            {...common}
+                                            toggleDarkMode={uiService.toggleDarkMode}
+                                            openPanel={(p: any) => setOpenPanel(p)}
+                                            openModal={(m: any) => setOpenModal(m)}
+                                            switchToSubs={() => switchTab(1)}
+                                            handlePay={handlePay}
+                                        />
+                                    );
+                                case 'subs':
+                                    return (
+                                        <SubsScreen
+                                            {...common}
+                                            openModal={() => setOpenModal('addSub')}
+                                        />
+                                    );
+                                case 'props':
+                                    return (
+                                        <PropsScreen
+                                            {...common}
+                                            openAddProp={() => setOpenModal('addProp')}
+                                            openServicesModal={openServicesModal}
+                                        />
+                                    );
+                                case 'reports':
+                                    return (
+                                        <ReportsScreen
+                                            showToast={uiService.showToast}
+                                            showSuccess={uiService.showSuccess}
+                                        />
+                                    );
+                                default:
+                                    return null;
+                            }
+                        })()}
+                    </motion.div>
+                </AnimatePresence>
             </main>
         </div>
     )
