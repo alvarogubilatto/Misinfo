@@ -65,7 +65,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
                         whileHover={{ scale: 1.05, rotate: 5 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        V
+                        <img src="/pwa-512x512.png" alt="VOXU Logo" style={{ width: '100%', height: '100%', borderRadius: '16px' }} />
                     </motion.div>
                     <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800' }}>VOXU</h1>
                     <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>Bienvenido de nuevo</p>
