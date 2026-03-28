@@ -78,7 +78,7 @@ export default function LoginScreen() {
                         whileHover={{ scale: 1.05, rotate: 5 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        M
+                        V
                     </motion.div>
                     <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800' }}>MisInfo</h1>
                     <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>Centralizá tus finanzas</p>

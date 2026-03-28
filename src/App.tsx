@@ -29,7 +29,7 @@ import Toast from './components/Toast'
 import FeedbackOverlay from './components/FeedbackOverlay'
 import Onboarding from './components/Onboarding'
 
-const TAB_ORDER = ['home', 'subs', 'props', 'reports'] as const;
+const TAB_ORDER = ['home', 'subs', 'props', 'reports', 'profile'] as const;
 
 export default function App() {
     const state = useStore()
@@ -37,7 +37,7 @@ export default function App() {
     // UI Local State (Navigation & Visibility)
     const [currentTab, setCurrentTab] = useState(0)
     const [animDir, setAnimDir] = useState('')
-    const [openPanel, setOpenPanel] = useState<'notif' | 'accounts' | 'profile' | 'activity' | null>(null)
+    const [openPanel, setOpenPanel] = useState<'notif' | 'accounts' | 'activity' | null>(null)
     const [openModal, setOpenModal] = useState<'addFunds' | 'pay' | 'addSub' | 'addProp' | 'services' | null>(null)
     const [servicesFor, setServicesFor] = useState('')
 
@@ -99,7 +99,6 @@ export default function App() {
         state, 
         showToast: uiService.showToast, 
         showSuccess: uiService.showSuccess,
-        showError: uiService.showError,
         formatMXN 
     }
 
@@ -137,15 +136,15 @@ export default function App() {
             {/* Panels */}
             {openPanel === 'notif' && <NotifPanel open={true} onClose={() => setOpenPanel(null)} />}
             <AccountsPanel open={openPanel === 'accounts'} onClose={() => setOpenPanel(null)} state={state} formatMXN={formatMXN} showToast={uiService.showToast} />
-            <ProfileScreen open={openPanel === 'profile'} onClose={() => setOpenPanel(null)} state={state} showToast={uiService.showToast} showSuccess={uiService.showSuccess} onLogout={handleLogout} />
             <ActivityPanel open={openPanel === 'activity'} onClose={() => setOpenPanel(null)} state={state} formatMXN={formatMXN} />
 
             {/* Modals */}
             <AddFundsModal open={openModal === 'addFunds'} onClose={() => setOpenModal(null)} {...commonProps} />
-            <PayModal open={openModal === 'pay'} onClose={() => setOpenModal(null)} pendingPay={pendingPay} {...commonProps} />
+            <PayModal open={openModal === 'pay'} onClose={() => setOpenModal(null)} pendingPay={pendingPay} {...commonProps} showError={uiService.showError} />
             <AddSubModal open={openModal === 'addSub'} onClose={() => setOpenModal(null)} {...commonProps} />
             <AddPropModal open={openModal === 'addProp'} onClose={() => setOpenModal(null)} {...commonProps} />
             <ServicesModal open={openModal === 'services'} onClose={() => setOpenModal(null)} propName={servicesFor} handlePay={handlePay} showToast={uiService.showToast} />
+
 
             {/* Nav */}
             <nav className="app-nav">
@@ -224,6 +223,17 @@ export default function App() {
                                         <ReportsScreen
                                             showToast={uiService.showToast}
                                             showSuccess={uiService.showSuccess}
+                                        />
+                                    );
+                                case 'profile':
+                                    return (
+                                        <ProfileScreen
+                                            open={true}
+                                            onClose={() => switchTab(0)}
+                                            state={state}
+                                            showToast={uiService.showToast}
+                                            showSuccess={uiService.showSuccess}
+                                            onLogout={handleLogout}
                                         />
                                     );
                                 default:
