@@ -1,13 +1,20 @@
+import { supabase } from '../lib/supabase'
+
 export const authService = {
-  login: (): void => {
-    localStorage.setItem('auth_token', 'true')
-    window.location.reload()
+  login: async (email: string, password: string): Promise<string | null> => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    return error ? error.message : null
   },
-  logout: (): void => {
-    localStorage.removeItem('auth_token')
-    window.location.reload()
+
+  loginWithGoogle: async (): Promise<string | null> => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
+    })
+    return error ? error.message : null
   },
-  isAuthenticated: (): boolean => {
-    return localStorage.getItem('auth_token') === 'true'
-  }
+
+  logout: async (): Promise<void> => {
+    await supabase.auth.signOut()
+  },
 }

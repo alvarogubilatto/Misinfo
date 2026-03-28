@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { Session } from '@supabase/supabase-js'
+import { supabase } from './lib/supabase'
 import { useStore } from './hooks/useStore'
 import { authService } from './services/auth.service'
 import { uiService } from './services/ui.service'
@@ -42,14 +44,23 @@ export default function App() {
     // Pay pending local state
     const [pendingPay, setPendingPay] = useState({ name: '', amount: 0, icon: 'card' })
 
-    const isAuthenticated = authService.isAuthenticated()
+    // Auth state reactivo vía Supabase
+    const [session, setSession] = useState<Session | null>(null)
+    const [authLoading, setAuthLoading] = useState(true)
 
-    const handleLogin = () => authService.login()
+    useEffect(() => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            console.log('[auth]', event, session?.user?.email ?? null)
+            setSession(session)
+            setAuthLoading(false)
+        })
+        return () => subscription.unsubscribe()
+    }, [])
+
     const handleLogout = () => authService.logout()
 
     const handleOnboardingComplete = () => {
         localStorage.setItem('onboarding_done', 'true')
-        window.location.reload()
     }
 
     const showOnboarding = !localStorage.getItem('onboarding_done')
@@ -92,10 +103,21 @@ export default function App() {
         formatMXN 
     }
 
-    if (!isAuthenticated) {
+    if (authLoading) {
+        return (
+            <div className="app-container" id="phoneFrame" style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'var(--bg)'
+            }}>
+                <div style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Cargando...</div>
+            </div>
+        )
+    }
+
+    if (!session) {
         return (
             <div className="app-container" id="phoneFrame">
-                <LoginScreen onLogin={handleLogin} />
+                <LoginScreen />
             </div>
         )
     }
@@ -110,7 +132,7 @@ export default function App() {
                 type={state.feedback?.type || 'success'} 
             />
 
-            <Onboarding show={!!(showOnboarding && isAuthenticated)} onComplete={handleOnboardingComplete} />
+            <Onboarding show={showOnboarding} onComplete={handleOnboardingComplete} />
 
             {/* Panels */}
             {openPanel === 'notif' && <NotifPanel open={true} onClose={() => setOpenPanel(null)} />}
