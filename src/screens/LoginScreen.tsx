@@ -80,7 +80,7 @@ export default function LoginScreen() {
                     >
                         V
                     </motion.div>
-                    <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800' }}>MisInfo</h1>
+                    <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800' }}>VOXU</h1>
                     <p style={{ margin: '8px 0 0', color: 'var(--text-muted)' }}>Centralizá tus finanzas</p>
                 </motion.div>
 
